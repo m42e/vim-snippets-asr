@@ -1,0 +1,12 @@
+extends c
+
+
+###################################################
+# AUTOSAR Function definition	                    #
+###################################################
+
+snippet FUNC "Autosar FUNCtion definition"
+FUNC(${1:Std_ReturnType}, ${2:`!v if exists('ModuleName') echo ModuleName else echo "" endif`_CODE}) ${3:`!v if exists('ModuleName') echo ModuleName else echo "" endif`}_${4:Init}(
+){
+}
+# vim:ft=snippets:
