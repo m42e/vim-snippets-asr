@@ -6,7 +6,36 @@ extends c
 ###################################################
 
 snippet FUNC "Autosar FUNCtion definition"
-FUNC(${1:Std_ReturnType}, ${2:`!v if exists('ModuleName') echo ModuleName else echo "" endif`_CODE}) ${3:`!v if exists('ModuleName') echo ModuleName else echo "" endif`}_${4:Init}(
-){
+FUNC(${1:Std_ReturnType}, ${2}_CODE) ${2:Module}_${3:Init}(
+)\{
+	`!p snip.shift(); snip.rv = t[1] + " result;\n" + snip.mkline("") if t[1] != 'void' else ''`$0`!p snip.shift(); snip.rv= "\n" + snip.mkline("return result;") if t[1] != 'void' else ''`
 }
+
+endsnippet
+
+snippet P2VAR "Autosar Pointer 2 VARiable data"
+P2VAR(${1:uint32}, ${2:AUTOMATIC}, ${3:MODULE}${4:_APPL_DATA}) $5$0
+endsnippet
+
+snippet CONST "Autosar CONST data"
+CONST(${1:uint32}, ${2:MODULE}${3:_APPL_DATA}) $4$0
+endsnippet
+
+snippet VAR "Autosar CONST data"
+VAR(${1:uint32}, ${2:MODULE}${3:_VAR}) $4$0
+endsnippet
+
+snippet STA(RT)?SEC "Autosar Start Section for BSW"
+/* PRQA S 5087,0862 2 *//* required AUTOSAR memory mapping */
+#define ${2:EthDiagMM}_START_SEC_${1:VAR_NOINIT_32}
+#include "$2_MemMap.h"
+
+endsnippet
+
+snippet STO(P)?SEC "Autosar Start Section for BSW"
+/* PRQA S 5087,0862 2 *//* required AUTOSAR memory mapping */
+#define ${2:EthDiagMM}_STOP_SEC_${1:VAR_NOINIT_32}
+#include "$2_MemMap.h"
+
+endsnippet
 # vim:ft=snippets:
