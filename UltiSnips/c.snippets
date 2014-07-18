@@ -1,4 +1,14 @@
 extends c
+######################
+#  Helper functions  #
+######################
+
+global !p
+def getProjectName():
+	project = vim.eval('b:asr_project_name')
+	return project if project != "" else ""
+endglobal
+
 
 
 ###################################################
@@ -6,7 +16,7 @@ extends c
 ###################################################
 
 snippet FUNC "Autosar FUNCtion definition"
-FUNC(${1:Std_ReturnType}, ${2}_CODE) ${2:Module}_${3:Init}(
+FUNC(${1:Std_ReturnType}, $2_CODE) ${2:`!p snip.rv = getProjectName()`}_${3:Init}(
 )\{
 	`!p snip.shift(); snip.rv = t[1] + " result;\n" + snip.mkline("") if t[1] != 'void' else ''`$0`!p snip.shift(); snip.rv= "\n" + snip.mkline("return result;") if t[1] != 'void' else ''`
 }
@@ -14,27 +24,27 @@ FUNC(${1:Std_ReturnType}, ${2}_CODE) ${2:Module}_${3:Init}(
 endsnippet
 
 snippet P2VAR "Autosar Pointer 2 VARiable data"
-P2VAR(${1:uint32}, ${2:AUTOMATIC}, ${3:MODULE}${4:_APPL_DATA}) $5$0
+P2VAR(${1:uint32}, ${2:AUTOMATIC}, ${3:`!p snip.rv = getProjectName()`}${4:_APPL_DATA}) $3_$5$0
 endsnippet
 
 snippet CONST "Autosar CONST data"
-CONST(${1:uint32}, ${2:MODULE}${3:_APPL_DATA}) $4$0
+CONST(${1:uint32}, ${2:`!p snip.rv = getProjectName()`}${3:_APPL_DATA}) $2_$4$0
 endsnippet
 
 snippet VAR "Autosar CONST data"
-VAR(${1:uint32}, ${2:MODULE}${3:_VAR}) $4$0
+VAR(${1:uint32}, ${2:`!p snip.rv = getProjectName()`}${3:_VAR}) $2_$4$0
 endsnippet
 
-snippet STA(RT)?SEC "Autosar Start Section for BSW"
+snippet STA(RT)?SEC "Autosar Start Section"
 /* PRQA S 5087,0862 2 *//* required AUTOSAR memory mapping */
-#define ${2:EthDiagMM}_START_SEC_${1:VAR_NOINIT_32}
+#define ${2:`!p snip.rv = getProjectName()`}_START_SEC_${1:VAR_NOINIT_32}
 #include "$2_MemMap.h"
 
 endsnippet
 
-snippet STO(P)?SEC "Autosar Start Section for BSW"
+snippet STO(P)?SEC "Autosar Start Section"
 /* PRQA S 5087,0862 2 *//* required AUTOSAR memory mapping */
-#define ${2:EthDiagMM}_STOP_SEC_${1:VAR_NOINIT_32}
+#define ${2:`!p snip.rv = getProjectName()`}_STOP_SEC_${1:VAR_NOINIT_32}
 #include "$2_MemMap.h"
 
 endsnippet
